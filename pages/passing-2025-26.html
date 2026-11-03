@@ -107,6 +107,59 @@ table.stats th:first-child,table.stats td:first-child{position:sticky;left:0;bac
 .legend{display:flex;flex-wrap:wrap;gap:6px 14px;color:rgba(255,255,255,.7);font-size:11px;padding:6px 4px 2px}
 .legend i{display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:5px;vertical-align:middle}
 .selchip{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#1a1300;border:0;border-radius:999px;padding:3px 10px;font:600 11.5px var(--body);cursor:pointer}
+</style><script>document.documentElement.dataset.page="passing"</script><style>/* Shared Barça look, added on top of every page's own styles by build.py */
+:root{
+  --bg:#F3F5FA; --surface:#FFFFFF; --ink:#0D1B3E; --muted:#5A6688; --line:#DCE2EE; --chip:#E8ECF5;
+  --grana:#A50044; --azul:#004D98; --gold:#EDBB00;
+  --accent:#A50044; --accent2:#004D98;
+  --pitch:#1F6B3A; --pitchline:rgba(255,255,255,.62);
+  --grass1:#23753F; --grass2:#1E6838;
+  --shadow:0 1px 2px rgba(13,27,62,.06),0 8px 24px -16px rgba(13,27,62,.25);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark; --bg:#070D1F; --surface:#0F1830; --ink:#EAF0FF; --muted:#93A0C3; --line:#1F2C4D; --chip:#16213F;
+  --grana:#E0457B; --azul:#4C8DF0; --accent:#E0457B; --accent2:#4C8DF0;
+  --grass1:#1D6337; --grass2:#195831; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -16px rgba(0,0,0,.6);
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark; --bg:#070D1F; --surface:#0F1830; --ink:#EAF0FF; --muted:#93A0C3; --line:#1F2C4D; --chip:#16213F;
+  --grana:#E0457B; --azul:#4C8DF0; --accent:#E0457B; --accent2:#4C8DF0;
+  --grass1:#1D6337; --grass2:#195831; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -16px rgba(0,0,0,.6);
+}
+body{background:var(--bg)!important}
+.wrap{max-width:1360px!important}
+
+/* page title: blaugrana underline */
+h1 .stripe,h1 span{background:linear-gradient(90deg,var(--azul) 0 50%,var(--grana) 50% 100%) no-repeat 0 100%/100% 5px!important;padding-bottom:6px}
+
+/* the pitch: striped grass, rounded, soft shadow, more room */
+.grid{grid-template-columns:minmax(0,1fr) 300px!important}
+[data-page="shots"] .grid{grid-template-columns:minmax(0,1fr) 420px!important}
+@media (max-width:980px){.grid,[data-page="shots"] .grid{grid-template-columns:1fr!important}}
+.pitchbox{background:repeating-linear-gradient(90deg,var(--grass1) 0 5.56%,var(--grass2) 5.56% 11.11%)!important;
+  border-radius:16px!important;padding:14px!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07),0 18px 40px -22px rgba(6,46,22,.75)}
+[data-page="shots"] .pitchbox{background:repeating-linear-gradient(180deg,var(--grass1) 0 7.7%,var(--grass2) 7.7% 15.4%)!important}
+.pitchmeta,.pitchbox .meta{color:rgba(255,255,255,.85)!important}
+.pitchbox .legend{color:rgba(255,255,255,.88)!important}
+
+/* cards and numbers */
+.panel,.tablewrap,.kpis,.kpi{border-color:var(--line)!important}
+.panel,.tablewrap{border-radius:12px!important;box-shadow:var(--shadow)}
+.kpis{border-radius:12px!important;box-shadow:var(--shadow);position:relative}
+.kpis::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--azul),var(--grana));z-index:1}
+.kpi b{color:var(--ink)}
+.seg button[aria-pressed="true"]{color:var(--grana)!important;font-weight:600}
+.views button[aria-pressed="true"]{background:linear-gradient(135deg,var(--azul),var(--grana))!important;border-color:transparent!important}
+select{border-radius:8px!important}
+input[type=range]{accent-color:var(--grana)}
+
+/* "how it's made" notes fold away so the page stays simple */
+details.method{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;box-shadow:var(--shadow)}
+details.method summary{cursor:pointer;font-weight:600;color:var(--ink);list-style:none;display:flex;align-items:center;gap:8px}
+details.method summary::-webkit-details-marker{display:none}
+details.method summary::before{content:"";width:8px;height:8px;border-right:2px solid var(--grana);border-bottom:2px solid var(--grana);transform:rotate(-45deg);transition:transform .2s}
+details.method[open] summary::before{transform:rotate(45deg)}
+details.method .note{margin:10px 0 0}
 </style>
 
 <div class="wrap">
@@ -296,7 +349,7 @@ function drawPitch(svg){
     el('circle', { cx: x0 + d * 11, cy: 34, r: .4, fill: 'var(--pitchline)' }, g);
     const ax = x0 + d * 16.5, dy = Math.sqrt(9.15 ** 2 - 5.5 ** 2); el('path', { d: `M ${ax} ${34 - dy} A 9.15 9.15 0 0 ${s ? 0 : 1} ${ax} ${34 + dy}` }, g);
     el('rect', { x: s ? 105 : -1.6, y: 34 - 3.66, width: 1.6, height: 7.32 }, g); }
-  const t = el('text', { x: 105, y: 71.2, 'text-anchor': 'end', fill: 'rgba(255,255,255,.35)', 'font-family': 'IBM Plex Mono, monospace', 'font-size': 1.9 }, svg); t.textContent = 'ATTACK →';
+  const t = el('text', { x: 105, y: 71.2, 'text-anchor': 'end', fill: 'rgba(255,255,255,.7)', 'font-family': 'IBM Plex Mono, monospace', 'font-size': 1.9 }, svg); t.textContent = 'ATTACK →';
   const defs = el('defs', {}, svg);
   for (const [id, c] of [['ah-b', '#8FBBEE'], ['ah-g', '#EDBB00'], ['ah-p', '#FF5C8A'], ['ah-w', 'rgba(255,255,255,.45)']]){
     const mk = el('marker', { id, viewBox: '0 0 10 10', refX: 8, refY: 5, markerWidth: 4, markerHeight: 4, orient: 'auto-start-reverse' }, defs); el('path', { d: 'M0,0 L10,5 L0,10 z', fill: c }, mk); }
@@ -468,4 +521,6 @@ $('minEdge').oninput = e => { state.minEdge = +e.target.value; render(); };
 $('selchip').onclick = () => { state.sel = null; render(); };
 resetDefaults(); buildViews(); render();
 </script>
-</html>
+<script>(()=>{const ns=[...document.querySelectorAll('p.note')];if(!ns.length)return;
+const d=document.createElement('details');d.className='method';d.innerHTML='<summary>How these numbers are made</summary>';
+ns[0].before(d);ns.forEach(n=>d.appendChild(n));})()</script></html>

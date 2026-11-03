@@ -1,0 +1,274 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Barça Season Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F3F5FA; --surface:#FFFFFF; --ink:#0D1B3E; --muted:#5A6688; --line:#DCE2EE; --chip:#E8ECF5;
+  --grana:#A50044; --azul:#004D98; --gold:#EDBB00; --win:#1F9D63; --draw:#8A94AD; --loss:#D6455D;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.5;margin:0}
+.wrap{max-width:1360px;margin:0 auto;padding-inline:20px;padding-block:24px 44px;display:flex;flex-direction:column;gap:20px}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px}
+.seg{display:inline-flex;background:var(--chip);border-radius:8px;padding:2px}
+.seg button{border:0;background:transparent;color:var(--muted);font:500 13px var(--body);padding:6px 12px;border-radius:6px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--grana);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px}
+@media (max-width:900px){.hero{grid-template-columns:1fr}}
+.banner{position:relative;overflow:hidden;border-radius:18px;padding:26px 28px;color:#fff;
+  background:linear-gradient(120deg,#0B2F6B 0%,#004D98 38%,#7A0B4A 72%,#A50044 100%)}
+.banner::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 34px,transparent 34px 68px);pointer-events:none}
+.banner .eb{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
+.banner h1{font-family:var(--display);font-size:clamp(36px,5.4vw,60px);line-height:.95;margin:6px 0 16px;font-weight:700}
+.rec{display:flex;flex-wrap:wrap;gap:22px;position:relative;z-index:1}
+.rec div{display:flex;flex-direction:column}
+.rec b{font-family:var(--display);font-size:42px;line-height:1;font-weight:700;font-variant-numeric:tabular-nums}
+.rec span{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;opacity:.8}
+.form{display:flex;gap:6px;margin-top:18px;position:relative;z-index:1;flex-wrap:wrap}
+.form i{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font:700 13px var(--display);font-style:normal;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);cursor:default}
+.form i.W{background:#fff;color:#0B2F6B}
+.form i.L{background:rgba(255,255,255,.06);color:#FFB3C3;border-color:rgba(255,179,195,.6)}
+.formlbl{font-size:11px;opacity:.75;margin-top:6px;position:relative;z-index:1}
+.last{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px 22px;display:flex;flex-direction:column;gap:10px;box-shadow:0 8px 24px -16px rgba(13,27,62,.25)}
+.last .eb{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.score{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;text-align:center}
+.score .t{font-family:var(--display);font-size:22px;font-weight:600;line-height:1.05}
+.score .n{font-family:var(--display);font-size:48px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.xgline{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
+.xgline b{color:var(--ink)}
+.res{display:inline-block;padding:2px 10px;border-radius:999px;font-weight:600;font-size:12px;align-self:center}
+.res.W{background:color-mix(in srgb,var(--win) 16%,transparent);color:var(--win)}
+.res.D{background:var(--chip);color:var(--muted)}
+.res.L{background:color-mix(in srgb,var(--loss) 14%,transparent);color:var(--loss)}
+
+/* kpis */
+.ovk{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.ovk{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:520px){.ovk{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:2px;position:relative;overflow:hidden}
+.kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--azul),var(--grana))}
+.kpi span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.kpi b{font-family:var(--display);font-size:32px;line-height:1.05;font-weight:600;font-variant-numeric:tabular-nums}
+.kpi small{font-size:11.5px;color:var(--muted)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;box-shadow:0 8px 24px -18px rgba(13,27,62,.25)}
+.card h2{font-family:var(--display);font-size:24px;font-weight:600;margin:0}
+.card p.sub{margin:2px 0 10px;color:var(--muted);font-size:12.5px}
+.chartwrap{position:relative}
+.chartwrap svg{display:block;width:100%;height:auto}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--muted);margin-bottom:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--surface);font-size:12px;padding:7px 10px;border-radius:8px;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.25);z-index:5}
+.tip b{font-weight:600}
+
+/* leaders */
+.leaders{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+@media (max-width:1100px){.leaders{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:640px){.leaders{grid-template-columns:1fr}}
+.lead{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.lead h3{margin:0;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:500}
+.lead .top1{display:flex;align-items:center;gap:10px}
+.lead .num{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font:700 17px var(--display);color:#fff;background:linear-gradient(135deg,var(--azul),var(--grana));flex:0 0 auto}
+.lead .nm{font-weight:600;line-height:1.15}
+.lead .val{font-family:var(--display);font-size:30px;font-weight:600;line-height:1;margin-left:auto;font-variant-numeric:tabular-nums}
+.lead ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px;border-top:1px solid var(--line);padding-top:8px}
+.lead li{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted)}
+.lead li b{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
+
+/* explore */
+.explore{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+@media (max-width:1100px){.explore{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.explore{grid-template-columns:1fr}}
+.go{all:unset;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px;transition:transform .15s,box-shadow .15s,border-color .15s;position:relative;overflow:hidden}
+.go:hover,.go:focus-visible{transform:translateY(-3px);box-shadow:0 16px 30px -18px rgba(13,27,62,.45);border-color:var(--grana)}
+.go:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.go .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--azul),var(--grana))}
+.go b{font-family:var(--display);font-size:22px;font-weight:600}
+.go span{font-size:12.5px;color:var(--muted)}
+.go em{font-style:normal;font-size:12.5px;color:var(--grana);font-weight:600;margin-top:auto}
+.note{font-size:12px;color:var(--muted);margin:0}
+</style><script>document.documentElement.dataset.page="overview"</script><style>/* Shared Barça look, added on top of every page's own styles by build.py */
+:root{
+  --bg:#F3F5FA; --surface:#FFFFFF; --ink:#0D1B3E; --muted:#5A6688; --line:#DCE2EE; --chip:#E8ECF5;
+  --grana:#A50044; --azul:#004D98; --gold:#EDBB00;
+  --accent:#A50044; --accent2:#004D98;
+  --pitch:#1F6B3A; --pitchline:rgba(255,255,255,.62);
+  --grass1:#23753F; --grass2:#1E6838;
+  --shadow:0 1px 2px rgba(13,27,62,.06),0 8px 24px -16px rgba(13,27,62,.25);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark; --bg:#070D1F; --surface:#0F1830; --ink:#EAF0FF; --muted:#93A0C3; --line:#1F2C4D; --chip:#16213F;
+  --grana:#E0457B; --azul:#4C8DF0; --accent:#E0457B; --accent2:#4C8DF0;
+  --grass1:#1D6337; --grass2:#195831; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -16px rgba(0,0,0,.6);
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark; --bg:#070D1F; --surface:#0F1830; --ink:#EAF0FF; --muted:#93A0C3; --line:#1F2C4D; --chip:#16213F;
+  --grana:#E0457B; --azul:#4C8DF0; --accent:#E0457B; --accent2:#4C8DF0;
+  --grass1:#1D6337; --grass2:#195831; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -16px rgba(0,0,0,.6);
+}
+body{background:var(--bg)!important}
+.wrap{max-width:1360px!important}
+
+/* page title: blaugrana underline */
+h1 .stripe,h1 span{background:linear-gradient(90deg,var(--azul) 0 50%,var(--grana) 50% 100%) no-repeat 0 100%/100% 5px!important;padding-bottom:6px}
+
+/* the pitch: striped grass, rounded, soft shadow, more room */
+.grid{grid-template-columns:minmax(0,1fr) 300px!important}
+[data-page="shots"] .grid{grid-template-columns:minmax(0,1fr) 420px!important}
+@media (max-width:980px){.grid,[data-page="shots"] .grid{grid-template-columns:1fr!important}}
+.pitchbox{background:repeating-linear-gradient(90deg,var(--grass1) 0 5.56%,var(--grass2) 5.56% 11.11%)!important;
+  border-radius:16px!important;padding:14px!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07),0 18px 40px -22px rgba(6,46,22,.75)}
+[data-page="shots"] .pitchbox{background:repeating-linear-gradient(180deg,var(--grass1) 0 7.7%,var(--grass2) 7.7% 15.4%)!important}
+.pitchmeta,.pitchbox .meta{color:rgba(255,255,255,.85)!important}
+.pitchbox .legend{color:rgba(255,255,255,.88)!important}
+
+/* cards and numbers */
+.panel,.tablewrap,.kpis,.kpi{border-color:var(--line)!important}
+.panel,.tablewrap{border-radius:12px!important;box-shadow:var(--shadow)}
+.kpis{border-radius:12px!important;box-shadow:var(--shadow);position:relative}
+.kpis::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--azul),var(--grana));z-index:1}
+.kpi b{color:var(--ink)}
+.seg button[aria-pressed="true"]{color:var(--grana)!important;font-weight:600}
+.views button[aria-pressed="true"]{background:linear-gradient(135deg,var(--azul),var(--grana))!important;border-color:transparent!important}
+select{border-radius:8px!important}
+input[type=range]{accent-color:var(--grana)}
+
+/* "how it's made" notes fold away so the page stays simple */
+details.method{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;box-shadow:var(--shadow)}
+details.method summary{cursor:pointer;font-weight:600;color:var(--ink);list-style:none;display:flex;align-items:center;gap:8px}
+details.method summary::-webkit-details-marker{display:none}
+details.method summary::before{content:"";width:8px;height:8px;border-right:2px solid var(--grana);border-bottom:2px solid var(--grana);transform:rotate(-45deg);transition:transform .2s}
+details.method[open] summary::before{transform:rotate(45deg)}
+details.method .note{margin:10px 0 0}
+</style>
+
+<div class="wrap">
+  <div class="top">
+    <div class="eyebrow">FC Barcelona · WhoScored event data</div>
+    <div class="seg" id="setSeg" role="group" aria-label="Season"></div>
+  </div>
+
+  <div class="hero">
+    <div class="banner">
+      <div class="eb" id="bEb"></div>
+      <h1 id="bTitle"></h1>
+      <div class="rec" id="rec"></div>
+      <div class="form" id="form"></div>
+      <div class="formlbl">Last 10 results, newest on the right</div>
+    </div>
+    <div class="last" id="last"></div>
+  </div>
+
+  <section class="ovk" id="kpis" aria-label="Season numbers"></section>
+
+  <section class="card">
+    <h2>Chances created vs conceded</h2>
+    <p class="sub">Expected goals (xG) for and against in every match. Hover a match for details.</p>
+    <div class="legend"><span><i style="background:var(--grana)"></i>xG for Barça</span><span><i style="background:var(--azul)"></i>xG for the opponent</span></div>
+    <div class="chartwrap" id="chartwrap"><svg id="chart" role="img" aria-label="xG for and against by match"></svg><div class="tip" id="tip" hidden></div></div>
+  </section>
+
+  <section>
+    <div class="eyebrow" style="margin-bottom:8px">Season leaders</div>
+    <div class="leaders" id="leaders"></div>
+  </section>
+
+  <section>
+    <div class="eyebrow" style="margin-bottom:8px">Explore the details</div>
+    <div class="explore" id="explore"></div>
+  </section>
+  <p class="note">Numbers come from WhoScored / Opta match-centre data. xG is our own model. Copa del Rey and Supercopa matches have no event data, so they are not included.</p>
+</div>
+
+<script>
+const D = {"sets":{"b27":{"season":"2026/27","M":[{"id":"1993910","date":"2026-08-23","opp":"Elche","home":false,"bf":5,"ag":0,"comp":"LaLiga","xgf":3.63,"xga":1.15,"pp":542,"pc":87,"prog":31},{"id":"1993902","date":"2026-08-27","opp":"Athletic Club","home":true,"bf":2,"ag":0,"comp":"LaLiga","xgf":2.86,"xga":0.23,"pp":646,"pc":89,"prog":63},{"id":"1993920","date":"2026-08-31","opp":"Rayo Vallecano","home":true,"bf":5,"ag":2,"comp":"LaLiga","xgf":3.5,"xga":1.8,"pp":673,"pc":89,"prog":39},{"id":"1993949","date":"2026-09-06","opp":"Valencia","home":false,"bf":5,"ag":0,"comp":"LaLiga","xgf":4.18,"xga":0.78,"pp":806,"pc":91,"prog":57},{"id":"2029136","date":"2026-09-09","opp":"Feyenoord","home":true,"bf":5,"ag":1,"comp":"UCL","xgf":2.26,"xga":0.87,"pp":808,"pc":93,"prog":57},{"id":"1993941","date":"2026-09-13","opp":"Levante","home":false,"bf":4,"ag":2,"comp":"LaLiga","xgf":2.09,"xga":2.29,"pp":796,"pc":91,"prog":26},{"id":"1994181","date":"2026-09-16","opp":"Racing Santander","home":true,"bf":7,"ag":2,"comp":"LaLiga","xgf":7.15,"xga":1.79,"pp":673,"pc":89,"prog":62},{"id":"1994156","date":"2026-09-19","opp":"Sevilla","home":false,"bf":3,"ag":1,"comp":"LaLiga","xgf":3.17,"xga":0.61,"pp":662,"pc":89,"prog":46},{"id":"1994165","date":"2026-10-10","opp":"Getafe","home":true,"bf":3,"ag":0,"comp":"LaLiga","xgf":2.27,"xga":0.21,"pp":881,"pc":90,"prog":38},{"id":"2029208","date":"2026-10-13","opp":"Galatasaray","home":false,"bf":4,"ag":1,"comp":"UCL","xgf":3.66,"xga":0.25,"pp":705,"pc":90,"prog":53},{"id":"1994178","date":"2026-10-17","opp":"Real Betis","home":false,"bf":5,"ag":2,"comp":"LaLiga","xgf":2.46,"xga":1.34,"pp":764,"pc":92,"prog":52},{"id":"2029108","date":"2026-10-20","opp":"PSG","home":false,"bf":2,"ag":4,"comp":"UCL","xgf":2.6,"xga":3.64,"pp":550,"pc":87,"prog":48},{"id":"1993934","date":"2026-10-25","opp":"Real Madrid","home":true,"bf":1,"ag":2,"comp":"LaLiga","xgf":1.52,"xga":1.76,"pp":658,"pc":88,"prog":34},{"id":"1993972","date":"2026-10-31","opp":"Deportivo Alaves","home":true,"bf":6,"ag":1,"comp":"LaLiga","xgf":3.33,"xga":0.93,"pp":849,"pc":92,"prog":41}],"team":{"xgf":44.68,"xga":17.67,"pp":10013,"pc":90,"ppda":9.9,"line":41.9},"leaders":{"goals":[["Raphinha",11,17],["Yamal",10,12],["Fermín",7,6],["Adeyemi",14,4],["Jesus",9,4]],"assists":[["Yamal",10,9],["Fermín",7,6],["Gordon",17,4],["Pedri",8,3],["Olmo",20,3]],"prog":[["Yamal",10,85],["Pedri",8,72],["Cubarsí",5,65],["Martín",18,64],["E. García",24,56]],"takeons":[["Yamal",10,55],["Raphinha",11,20],["Gordon",17,18],["Fermín",7,16],["Adeyemi",14,15]],"wins":[["Pedri",8,95],["Rodri",16,89],["Espart",12,66],["Yamal",10,56],["E. García",24,55]]}},"b26":{"season":"2025/26","M":[{"id":"1913918","date":"2025-08-16","opp":"Mallorca","home":false,"bf":3,"ag":0,"comp":"LaLiga","xgf":1.67,"xga":0.46,"pp":582,"pc":88,"prog":37},{"id":"1913888","date":"2025-08-23","opp":"Levante","home":false,"bf":3,"ag":2,"comp":"LaLiga","xgf":2.33,"xga":2.35,"pp":798,"pc":89,"prog":50},{"id":"1913904","date":"2025-08-31","opp":"Rayo Vallecano","home":false,"bf":1,"ag":1,"comp":"LaLiga","xgf":1.95,"xga":2.29,"pp":468,"pc":82,"prog":31},{"id":"1913922","date":"2025-09-14","opp":"Valencia","home":true,"bf":6,"ag":0,"comp":"LaLiga","xgf":3.54,"xga":0.11,"pp":696,"pc":90,"prog":61},{"id":"1946405","date":"2025-09-18","opp":"Newcastle","home":false,"bf":2,"ag":1,"comp":"UCL","xgf":1.31,"xga":1.13,"pp":558,"pc":85,"prog":43},{"id":"1913903","date":"2025-09-21","opp":"Getafe","home":true,"bf":3,"ag":0,"comp":"LaLiga","xgf":2.45,"xga":0.17,"pp":748,"pc":90,"prog":62},{"id":"1913936","date":"2025-09-25","opp":"Real Oviedo","home":false,"bf":3,"ag":1,"comp":"LaLiga","xgf":2.11,"xga":0.88,"pp":809,"pc":90,"prog":53},{"id":"1913949","date":"2025-09-28","opp":"Real Sociedad","home":true,"bf":2,"ag":1,"comp":"LaLiga","xgf":3.07,"xga":0.77,"pp":770,"pc":90,"prog":35},{"id":"1946390","date":"2025-10-01","opp":"PSG","home":true,"bf":1,"ag":2,"comp":"UCL","xgf":1.44,"xga":2.21,"pp":434,"pc":86,"prog":31},{"id":"1913956","date":"2025-10-05","opp":"Sevilla","home":false,"bf":1,"ag":4,"comp":"LaLiga","xgf":2.75,"xga":2.55,"pp":444,"pc":84,"prog":34},{"id":"1913969","date":"2025-10-18","opp":"Girona","home":true,"bf":2,"ag":1,"comp":"LaLiga","xgf":2.3,"xga":1.42,"pp":700,"pc":89,"prog":26},{"id":"1946395","date":"2025-10-21","opp":"Olympiacos","home":true,"bf":6,"ag":1,"comp":"UCL","xgf":2.54,"xga":0.95,"pp":680,"pc":89,"prog":40},{"id":"1913998","date":"2025-10-26","opp":"Real Madrid","home":false,"bf":1,"ag":2,"comp":"LaLiga","xgf":1.18,"xga":3.15,"pp":653,"pc":89,"prog":23},{"id":"1913963","date":"2025-11-02","opp":"Elche","home":true,"bf":3,"ag":1,"comp":"LaLiga","xgf":2.4,"xga":0.69,"pp":433,"pc":82,"prog":37},{"id":"1946393","date":"2025-11-05","opp":"Club Brugge","home":false,"bf":3,"ag":3,"comp":"UCL","xgf":2.52,"xga":2.15,"pp":760,"pc":90,"prog":61},{"id":"1913991","date":"2025-11-09","opp":"Celta Vigo","home":false,"bf":4,"ag":2,"comp":"LaLiga","xgf":3.67,"xga":0.55,"pp":736,"pc":90,"prog":30},{"id":"1914008","date":"2025-11-22","opp":"Athletic Club","home":true,"bf":4,"ag":0,"comp":"LaLiga","xgf":2.27,"xga":1.1,"pp":711,"pc":88,"prog":25},{"id":"1946348","date":"2025-11-25","opp":"Chelsea","home":false,"bf":0,"ag":3,"comp":"UCL","xgf":0.6,"xga":1.81,"pp":426,"pc":83,"prog":23},{"id":"1914018","date":"2025-11-29","opp":"Deportivo Alaves","home":true,"bf":3,"ag":1,"comp":"LaLiga","xgf":2.47,"xga":1.53,"pp":710,"pc":88,"prog":32},{"id":"1914066","date":"2025-12-02","opp":"Atletico","home":true,"bf":3,"ag":1,"comp":"LaLiga","xgf":3.15,"xga":1.3,"pp":577,"pc":85,"prog":44},{"id":"1914026","date":"2025-12-06","opp":"Real Betis","home":false,"bf":5,"ag":3,"comp":"LaLiga","xgf":3.33,"xga":2.69,"pp":595,"pc":88,"prog":25},{"id":"1946392","date":"2025-12-09","opp":"Eintracht Frankfurt","home":true,"bf":2,"ag":1,"comp":"UCL","xgf":1.67,"xga":0.56,"pp":844,"pc":89,"prog":69},{"id":"1914034","date":"2025-12-13","opp":"Osasuna","home":true,"bf":2,"ag":0,"comp":"LaLiga","xgf":2.55,"xga":0.16,"pp":765,"pc":88,"prog":30},{"id":"1914049","date":"2025-12-21","opp":"Villarreal","home":false,"bf":2,"ag":0,"comp":"LaLiga","xgf":2.38,"xga":1.72,"pp":819,"pc":90,"prog":29},{"id":"1914057","date":"2026-01-03","opp":"Espanyol","home":false,"bf":2,"ag":0,"comp":"LaLiga","xgf":2.33,"xga":1.18,"pp":579,"pc":87,"prog":33},{"id":"1914077","date":"2026-01-18","opp":"Real Sociedad","home":false,"bf":1,"ag":2,"comp":"LaLiga","xgf":3.67,"xga":1.17,"pp":629,"pc":86,"prog":44},{"id":"1946401","date":"2026-01-21","opp":"Slavia Prague","home":false,"bf":4,"ag":2,"comp":"UCL","xgf":2.18,"xga":1.35,"pp":522,"pc":83,"prog":47},{"id":"1914086","date":"2026-01-25","opp":"Real Oviedo","home":true,"bf":3,"ag":0,"comp":"LaLiga","xgf":1.59,"xga":0.63,"pp":703,"pc":88,"prog":39},{"id":"1946403","date":"2026-01-28","opp":"Copenhagen","home":true,"bf":4,"ag":1,"comp":"UCL","xgf":3.8,"xga":0.65,"pp":780,"pc":89,"prog":37},{"id":"1914083","date":"2026-01-31","opp":"Elche","home":false,"bf":3,"ag":1,"comp":"LaLiga","xgf":6.39,"xga":0.79,"pp":569,"pc":86,"prog":36},{"id":"1914158","date":"2026-02-07","opp":"Mallorca","home":true,"bf":3,"ag":0,"comp":"LaLiga","xgf":2.31,"xga":0.82,"pp":794,"pc":89,"prog":31},{"id":"1914105","date":"2026-02-16","opp":"Girona","home":false,"bf":1,"ag":2,"comp":"LaLiga","xgf":2.83,"xga":2.4,"pp":781,"pc":88,"prog":41},{"id":"1914123","date":"2026-02-22","opp":"Levante","home":true,"bf":3,"ag":0,"comp":"LaLiga","xgf":3.62,"xga":0.85,"pp":803,"pc":92,"prog":34},{"id":"1914135","date":"2026-02-28","opp":"Villarreal","home":true,"bf":4,"ag":1,"comp":"LaLiga","xgf":3.29,"xga":1.47,"pp":787,"pc":91,"prog":25},{"id":"1914145","date":"2026-03-07","opp":"Athletic Club","home":false,"bf":1,"ag":0,"comp":"LaLiga","xgf":0.6,"xga":1.3,"pp":675,"pc":88,"prog":35},{"id":"1972181","date":"2026-03-10","opp":"Newcastle","home":false,"bf":1,"ag":1,"comp":"UCL","xgf":1.44,"xga":1.2,"pp":423,"pc":80,"prog":21},{"id":"1914120","date":"2026-03-15","opp":"Sevilla","home":true,"bf":5,"ag":2,"comp":"LaLiga","xgf":3.52,"xga":0.93,"pp":628,"pc":89,"prog":41},{"id":"1972185","date":"2026-03-18","opp":"Newcastle","home":true,"bf":7,"ag":2,"comp":"UCL","xgf":4.52,"xga":1.31,"pp":476,"pc":86,"prog":31},{"id":"1914165","date":"2026-03-22","opp":"Rayo Vallecano","home":true,"bf":1,"ag":0,"comp":"LaLiga","xgf":1.74,"xga":1.82,"pp":504,"pc":85,"prog":33},{"id":"1914171","date":"2026-04-04","opp":"Atletico","home":false,"bf":2,"ag":1,"comp":"LaLiga","xgf":2.7,"xga":1.0,"pp":647,"pc":90,"prog":36},{"id":"1974943","date":"2026-04-08","opp":"Atletico","home":true,"bf":0,"ag":2,"comp":"UCL","xgf":1.24,"xga":0.62,"pp":611,"pc":89,"prog":39},{"id":"1914200","date":"2026-04-11","opp":"Espanyol","home":true,"bf":4,"ag":1,"comp":"LaLiga","xgf":2.63,"xga":0.98,"pp":747,"pc":91,"prog":29},{"id":"1974944","date":"2026-04-14","opp":"Atletico","home":false,"bf":2,"ag":1,"comp":"UCL","xgf":2.93,"xga":1.74,"pp":722,"pc":89,"prog":38},{"id":"1914216","date":"2026-04-22","opp":"Celta Vigo","home":true,"bf":1,"ag":0,"comp":"LaLiga","xgf":1.47,"xga":1.03,"pp":730,"pc":92,"prog":34},{"id":"1914207","date":"2026-04-25","opp":"Getafe","home":false,"bf":2,"ag":0,"comp":"LaLiga","xgf":1.91,"xga":0.68,"pp":633,"pc":89,"prog":31},{"id":"1914184","date":"2026-05-02","opp":"Osasuna","home":false,"bf":2,"ag":1,"comp":"LaLiga","xgf":1.74,"xga":1.27,"pp":688,"pc":88,"prog":35},{"id":"1914198","date":"2026-05-10","opp":"Real Madrid","home":true,"bf":2,"ag":0,"comp":"LaLiga","xgf":1.44,"xga":0.77,"pp":545,"pc":90,"prog":32},{"id":"1914217","date":"2026-05-13","opp":"Deportivo Alaves","home":false,"bf":0,"ag":1,"comp":"LaLiga","xgf":0.48,"xga":1.02,"pp":699,"pc":88,"prog":56},{"id":"1914241","date":"2026-05-17","opp":"Real Betis","home":true,"bf":3,"ag":1,"comp":"LaLiga","xgf":1.39,"xga":1.08,"pp":722,"pc":90,"prog":34},{"id":"1914258","date":"2026-05-23","opp":"Valencia","home":false,"bf":1,"ag":3,"comp":"LaLiga","xgf":1.71,"xga":1.25,"pp":707,"pc":89,"prog":26}],"team":{"xgf":119.15,"xga":62.02,"pp":32820,"pc":88,"ppda":10.5,"line":38.1},"leaders":{"goals":[["Yamal",10,22],["Torres",7,19],["Lewandowski",9,18],["Raphinha",11,16],["Rashford",14,13]],"assists":[["Yamal",10,11],["Rashford",14,10],["Fermín",16,9],["Pedri",8,7],["Olmo",20,7]],"prog":[["E. García",24,214],["Yamal",10,202],["Pedri",8,173],["Martín",18,147],["Cubarsí",5,147]],"takeons":[["Yamal",10,179],["Fermín",16,55],["Pedri",8,45],["Rashford",14,41],["Balde",3,36]],"wins":[["Pedri",8,263],["E. García",24,256],["Koundé",23,209],["Cubarsí",5,208],["Yamal",10,198]]}}}};
+const SETS = Object.keys(D.sets);
+const state = { set: SETS[0] };
+const $ = id => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+const el = (t, a = {}, p) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; };
+const fmtDate = d => { const [y, m, dd] = d.split('-'); return `${+dd} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m - 1]}`; };
+const res = m => m.bf > m.ag ? 'W' : m.bf < m.ag ? 'L' : 'D';
+const COMP = { LaLiga: 'LaLiga', UCL: 'Champions League' };
+const ICON = {
+  passing: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="17" r="2.5"/><circle cx="12" cy="6" r="2.5"/><circle cx="19" cy="15" r="2.5"/><path d="M7 15.5 10.5 8M14 7.5l3.5 5.5M7.5 17h9"/></svg>',
+  shots: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5h18v8H3z"/><circle cx="12" cy="18" r="3"/><path d="M12 13v2"/></svg>',
+  dribbling: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 18c4 0 4-8 9-8s5 6 9 6"/><circle cx="19" cy="7" r="2.5"/></svg>',
+  defence: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/></svg>',
+  positions: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M12 5v14"/><circle cx="12" cy="12" r="2.5"/></svg>'
+};
+const EXPLORE = [['passing', 'Passing', 'Passing network, progressive passes and every player\'s passing numbers'],
+  ['shots', 'Shots & xG', 'Every shot on a map, sized by xG, for and against'],
+  ['dribbling', 'Dribbling', 'Take-ons, where they happen and what they lead to'],
+  ['defence', 'Defence', 'Line height, pressing (PPDA) and every defensive action'],
+  ['positions', 'Positions', 'Player heatmaps and the team\'s shape with and without the ball']];
+
+function go(tab){ try { window.parent.postMessage({ tab }, '*'); } catch (e) {} }
+
+function render(){
+  const S = D.sets[state.set], ms = S.M, n = ms.length;
+  $('setSeg').innerHTML = SETS.map(k => `<button data-k="${k}" aria-pressed="${k === state.set}">${D.sets[k].season}</button>`).join('');
+  $('setSeg').querySelectorAll('button').forEach(b => b.onclick = () => { state.set = b.dataset.k; render(); });
+  const w = ms.filter(m => res(m) === 'W').length, d = ms.filter(m => res(m) === 'D').length, l = n - w - d;
+  const gf = ms.reduce((s, m) => s + m.bf, 0), ga = ms.reduce((s, m) => s + m.ag, 0);
+  $('bEb').textContent = `${S.season} · ${n} matches with data`;
+  $('bTitle').textContent = 'Barça season so far';
+  $('rec').innerHTML = [['Won', w], ['Drawn', d], ['Lost', l], ['Goals', `${gf}–${ga}`]].map(([k, v]) => `<div><b>${v}</b><span>${k}</span></div>`).join('');
+  $('form').innerHTML = ms.slice(-10).map(m => `<i class="${res(m)}" title="${fmtDate(m.date)} · ${m.home ? 'vs' : '@'} ${m.opp} ${m.bf}–${m.ag}">${res(m)}</i>`).join('');
+  const L = ms[n - 1];
+  if (L){ const us = 'Barça', r = res(L);
+    $('last').innerHTML = `<div class="eb">Latest match · ${fmtDate(L.date)} · ${COMP[L.comp] || L.comp}</div>
+      <div class="score"><div class="t">${L.home ? us : L.opp}</div><div class="n">${L.home ? L.bf : L.ag}–${L.home ? L.ag : L.bf}</div><div class="t">${L.home ? L.opp : us}</div></div>
+      <span class="res ${r}">${r === 'W' ? 'Win' : r === 'L' ? 'Defeat' : 'Draw'}</span>
+      <div class="xgline"><span>xG <b>${L.xgf.toFixed(2)}</b> Barça</span><span>${L.opp} <b>${L.xga.toFixed(2)}</b> xG</span></div>
+      <div class="xgline"><span>Passes <b>${L.pp}</b> · <b>${L.pc}%</b> completed</span><span>Progressive <b>${L.prog}</b></span></div>`; }
+  const T = S.team, per = v => n ? (v / n).toFixed(1) : '–';
+  const K = [['Goals per match', per(gf), `${gf} scored`], ['xG per match', per(T.xgf), `${T.xgf.toFixed(1)} in total`], ['xG against', per(T.xga), 'per match'],
+    ['Pass completion', T.pc + '%', `${per(T.pp)} passes per match`], ['PPDA', T.ppda ?? '–', 'lower = more pressing'], ['Line height', T.line != null ? T.line + ' m' : '–', 'centre-backs, from own goal']];
+  $('kpis').innerHTML = K.map(([a, b, c]) => `<div class="kpi"><span>${a}</span><b>${b}</b><small>${c}</small></div>`).join('');
+  drawChart(ms);
+  const LD = [['Top scorer', 'goals'], ['Most assists', 'assists'], ['Progressive passes', 'prog'], ['Successful take-ons', 'takeons'], ['Ball wins', 'wins']];
+  $('leaders').innerHTML = LD.map(([t, k]) => { const r = S.leaders[k] || []; const f = r[0];
+    return `<div class="lead"><h3>${t}</h3>${f ? `<div class="top1"><span class="num">${f[1] ?? ''}</span><span class="nm">${f[0]}</span><span class="val">${f[2]}</span></div>` : '<div>–</div>'}
+      <ol>${r.slice(1, 4).map(x => `<li><span>${x[0]}</span><b>${x[2]}</b></li>`).join('')}</ol></div>`; }).join('');
+  $('explore').innerHTML = EXPLORE.map(([k, t, s]) => `<button class="go" data-tab="${k}"><span class="ic">${ICON[k]}</span><b>${t}</b><span>${s}</span><em>Open →</em></button>`).join('');
+  $('explore').querySelectorAll('.go').forEach(b => b.onclick = () => go(b.dataset.tab));
+}
+
+function drawChart(ms){
+  const svg = $('chart'); svg.innerHTML = '';
+  const Wd = Math.max(320, Math.round($('chartwrap').clientWidth) || 1000), Ht = Wd < 640 ? 230 : 280, L = 34, R = 10, top = 14, bot = 30, mid = top + (Ht - top - bot) / 2;
+  svg.setAttribute('viewBox', `0 0 ${Wd} ${Ht}`);
+  const mx = Math.max(1, ...ms.map(m => Math.max(m.xgf, m.xga)));
+  const scale = v => v / mx * (Ht - top - bot) / 2;
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const G = css('--grana') || '#A50044', A = css('--azul') || '#004D98', line = css('--line') || '#ddd', muted = css('--muted') || '#666';
+  for (const v of [1, 2, 3, 4].filter(v => v <= mx)){ for (const s of [-1, 1]){ el('line', { x1: L, x2: Wd - R, y1: mid - s * scale(v), y2: mid - s * scale(v), stroke: line, 'stroke-width': 1 }, svg); }
+    for (const s of [-1, 1]){ const t = el('text', { x: L - 6, y: mid - s * scale(v) + 4, 'text-anchor': 'end', fill: muted, 'font-size': 11, 'font-family': 'IBM Plex Mono, monospace' }, svg); t.textContent = v; } }
+  el('line', { x1: L, x2: Wd - R, y1: mid, y2: mid, stroke: muted, 'stroke-width': 1 }, svg);
+  const n = ms.length, slot = (Wd - L - R) / Math.max(1, n), bw = Math.max(3, Math.min(18, slot * .62));
+  const tip = $('tip');
+  ms.forEach((m, i) => {
+    const cx = L + slot * (i + .5);
+    const hf = scale(m.xgf), ha = scale(m.xga), r = Math.min(4, bw / 2);
+    el('path', { d: `M${cx - bw / 2},${mid - 1} v${-(hf - r)} q0,${-r} ${r},${-r} h${bw - 2 * r} q${r},0 ${r},${r} v${hf - r} z`, fill: G }, svg);
+    el('path', { d: `M${cx - bw / 2},${mid + 1} v${ha - r} q0,${r} ${r},${r} h${bw - 2 * r} q${r},0 ${r},${-r} v${-(ha - r)} z`, fill: A }, svg);
+    const r0 = res(m); const dot = el('circle', { cx, cy: Ht - bot + 14, r: 4, fill: r0 === 'W' ? '#1F9D63' : r0 === 'L' ? '#D6455D' : '#8A94AD' }, svg);
+    const hit = el('rect', { x: cx - slot / 2, y: top, width: slot, height: Ht - top, fill: 'transparent', style: 'cursor:pointer' }, svg);
+    hit.addEventListener('mousemove', ev => { const b = $('chartwrap').getBoundingClientRect(); tip.innerHTML = `<b>${fmtDate(m.date)} · ${m.home ? 'vs' : '@'} ${m.opp} ${m.bf}–${m.ag}</b><br>xG ${m.xgf.toFixed(2)} – ${m.xga.toFixed(2)} · ${COMP[m.comp] || m.comp}`; tip.hidden = false; let x = ev.clientX - b.left + 12; if (x + tip.offsetWidth > b.width) x = ev.clientX - b.left - tip.offsetWidth - 12; tip.style.left = x + 'px'; tip.style.top = (ev.clientY - b.top - 10) + 'px'; });
+    hit.addEventListener('mouseleave', () => tip.hidden = true);
+  });
+}
+render();
+let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => drawChart(D.sets[state.set].M), 150); });
+</script>
+<script>(()=>{const ns=[...document.querySelectorAll('p.note')];if(!ns.length)return;
+const d=document.createElement('details');d.className='method';d.innerHTML='<summary>How these numbers are made</summary>';
+ns[0].before(d);ns.forEach(n=>d.appendChild(n));})()</script></html>

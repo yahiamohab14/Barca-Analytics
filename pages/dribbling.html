@@ -79,6 +79,59 @@ tbody tr:hover td{background:color-mix(in srgb,var(--accent2) 8%,transparent)}
 tbody tr.sel td{background:color-mix(in srgb,var(--gold) 22%,transparent)}
 .note{font-size:12px;color:var(--muted);max-width:84ch;margin:0}
 .note b{color:var(--ink);font-weight:600}
+</style><script>document.documentElement.dataset.page="dribbling"</script><style>/* Shared Barça look, added on top of every page's own styles by build.py */
+:root{
+  --bg:#F3F5FA; --surface:#FFFFFF; --ink:#0D1B3E; --muted:#5A6688; --line:#DCE2EE; --chip:#E8ECF5;
+  --grana:#A50044; --azul:#004D98; --gold:#EDBB00;
+  --accent:#A50044; --accent2:#004D98;
+  --pitch:#1F6B3A; --pitchline:rgba(255,255,255,.62);
+  --grass1:#23753F; --grass2:#1E6838;
+  --shadow:0 1px 2px rgba(13,27,62,.06),0 8px 24px -16px rgba(13,27,62,.25);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark; --bg:#070D1F; --surface:#0F1830; --ink:#EAF0FF; --muted:#93A0C3; --line:#1F2C4D; --chip:#16213F;
+  --grana:#E0457B; --azul:#4C8DF0; --accent:#E0457B; --accent2:#4C8DF0;
+  --grass1:#1D6337; --grass2:#195831; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -16px rgba(0,0,0,.6);
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark; --bg:#070D1F; --surface:#0F1830; --ink:#EAF0FF; --muted:#93A0C3; --line:#1F2C4D; --chip:#16213F;
+  --grana:#E0457B; --azul:#4C8DF0; --accent:#E0457B; --accent2:#4C8DF0;
+  --grass1:#1D6337; --grass2:#195831; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -16px rgba(0,0,0,.6);
+}
+body{background:var(--bg)!important}
+.wrap{max-width:1360px!important}
+
+/* page title: blaugrana underline */
+h1 .stripe,h1 span{background:linear-gradient(90deg,var(--azul) 0 50%,var(--grana) 50% 100%) no-repeat 0 100%/100% 5px!important;padding-bottom:6px}
+
+/* the pitch: striped grass, rounded, soft shadow, more room */
+.grid{grid-template-columns:minmax(0,1fr) 300px!important}
+[data-page="shots"] .grid{grid-template-columns:minmax(0,1fr) 420px!important}
+@media (max-width:980px){.grid,[data-page="shots"] .grid{grid-template-columns:1fr!important}}
+.pitchbox{background:repeating-linear-gradient(90deg,var(--grass1) 0 5.56%,var(--grass2) 5.56% 11.11%)!important;
+  border-radius:16px!important;padding:14px!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07),0 18px 40px -22px rgba(6,46,22,.75)}
+[data-page="shots"] .pitchbox{background:repeating-linear-gradient(180deg,var(--grass1) 0 7.7%,var(--grass2) 7.7% 15.4%)!important}
+.pitchmeta,.pitchbox .meta{color:rgba(255,255,255,.85)!important}
+.pitchbox .legend{color:rgba(255,255,255,.88)!important}
+
+/* cards and numbers */
+.panel,.tablewrap,.kpis,.kpi{border-color:var(--line)!important}
+.panel,.tablewrap{border-radius:12px!important;box-shadow:var(--shadow)}
+.kpis{border-radius:12px!important;box-shadow:var(--shadow);position:relative}
+.kpis::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--azul),var(--grana));z-index:1}
+.kpi b{color:var(--ink)}
+.seg button[aria-pressed="true"]{color:var(--grana)!important;font-weight:600}
+.views button[aria-pressed="true"]{background:linear-gradient(135deg,var(--azul),var(--grana))!important;border-color:transparent!important}
+select{border-radius:8px!important}
+input[type=range]{accent-color:var(--grana)}
+
+/* "how it's made" notes fold away so the page stays simple */
+details.method{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;box-shadow:var(--shadow)}
+details.method summary{cursor:pointer;font-weight:600;color:var(--ink);list-style:none;display:flex;align-items:center;gap:8px}
+details.method summary::-webkit-details-marker{display:none}
+details.method summary::before{content:"";width:8px;height:8px;border-right:2px solid var(--grana);border-bottom:2px solid var(--grana);transform:rotate(-45deg);transition:transform .2s}
+details.method[open] summary::before{transform:rotate(45deg)}
+details.method .note{margin:10px 0 0}
 </style>
 
 <div class="wrap">
@@ -207,14 +260,14 @@ function render(){
 
 const PX = x => x * 1.05, PY = y => (100 - y) * 0.68;
 function pitchBase(svg){
-  const g = el('g', { fill: 'none', stroke: 'rgba(255,255,255,.18)', 'stroke-width': .35 }, svg);
+  const g = el('g', { fill: 'none', stroke: 'rgba(255,255,255,.62)', 'stroke-width': .35 }, svg);
   el('rect', { x: 0, y: 0, width: 105, height: 68 }, g); el('line', { x1: 52.5, y1: 0, x2: 52.5, y2: 68 }, g); el('circle', { cx: 52.5, cy: 34, r: 9.15 }, g);
   for (const s of [0, 1]){ el('rect', { x: s ? 88.5 : 0, y: 13.84, width: 16.5, height: 40.32 }, g); el('rect', { x: s ? 99.5 : 0, y: 24.84, width: 5.5, height: 18.32 }, g); }
-  el('line', { x1: 70, y1: 0, x2: 70, y2: 68, 'stroke-dasharray': '1 1.4', stroke: 'rgba(255,255,255,.12)' }, g);
-  const t = el('text', { x: 105, y: 71.4, 'text-anchor': 'end', fill: 'rgba(255,255,255,.35)', 'font-family': 'IBM Plex Mono, monospace', 'font-size': 1.9 }, svg); t.textContent = 'ATTACK →';
+  el('line', { x1: 70, y1: 0, x2: 70, y2: 68, 'stroke-dasharray': '1 1.4', stroke: 'rgba(255,255,255,.35)' }, g);
+  const t = el('text', { x: 105, y: 71.4, 'text-anchor': 'end', fill: 'rgba(255,255,255,.7)', 'font-family': 'IBM Plex Mono, monospace', 'font-size': 1.9 }, svg); t.textContent = 'ATTACK →';
 }
 function showTip(ev, html){ const tip = $('tip'), b = $('pitchbox').getBoundingClientRect(); tip.innerHTML = html; tip.hidden = false; let x = ev.clientX - b.left + 12; if (x + tip.offsetWidth > b.width - 6) x = ev.clientX - b.left - tip.offsetWidth - 12; tip.style.left = x + 'px'; tip.style.top = (ev.clientY - b.top + 12) + 'px'; }
-const GOOD = '#5CD6A0', BAD = '#FF6B6B', GOLD = '#F2C14E';
+const GOOD = '#7CD3FF', BAD = '#FF8A8A', GOLD = '#FFD84D';
 function drawMap(svg, list){
   const g = el('g', {}, svg), n = list.length, R0 = n <= 200 ? 1.5 : n <= 600 ? 1.15 : .9;
   list.sort((a, b) => (a[0][6] & 1) - (b[0][6] & 1));
@@ -240,7 +293,7 @@ function drawZones(svg, list){
   const mx = Math.max(1, ...z.flat().map(v => v[0])), cw = 105 / C, g = el('g', {}, svg);
   for (let c = 0; c < C; c++) for (let l = 0; l < L; l++){
     const [a, w] = z[c][l]; if (!a) continue; const y0 = PY(edges[l + 1]), y1 = PY(edges[l]), t = a / mx;
-    const rect = el('rect', { x: c * cw + .3, y: y0 + .3, width: cw - .6, height: y1 - y0 - .6, rx: .6, fill: `rgba(92,214,160,${.12 + .6 * t})` }, g);
+    const rect = el('rect', { x: c * cw + .3, y: y0 + .3, width: cw - .6, height: y1 - y0 - .6, rx: .6, fill: `rgba(10,22,52,${.18 + .62 * t})` }, g);
     const tx = el('text', { x: c * cw + cw / 2, y: (y0 + y1) / 2 - .4, 'text-anchor': 'middle', fill: '#fff', 'font-family': 'IBM Plex Mono, monospace', 'font-size': 2.3, 'font-weight': 500 }, g); tx.textContent = a;
     const tp = el('text', { x: c * cw + cw / 2, y: (y0 + y1) / 2 + 2.4, 'text-anchor': 'middle', fill: 'rgba(255,255,255,.75)', 'font-family': 'IBM Plex Mono, monospace', 'font-size': 1.7 }, g); tp.textContent = pct(w, a) + '%';
     rect.addEventListener('mousemove', ev => showTip(ev, `${a} take-ons in this zone<br>${w} successful (${pct(w, a)}%)`)); rect.addEventListener('mouseleave', () => $('tip').hidden = true);
@@ -299,4 +352,6 @@ $('uTot').onclick = () => { state.unit = 'tot'; render(); };
 $('uP90').onclick = () => { state.unit = 'p90'; render(); };
 buildAll();
 </script>
-</html>
+<script>(()=>{const ns=[...document.querySelectorAll('p.note')];if(!ns.length)return;
+const d=document.createElement('details');d.className='method';d.innerHTML='<summary>How these numbers are made</summary>';
+ns[0].before(d);ns.forEach(n=>d.appendChild(n));})()</script></html>

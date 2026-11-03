@@ -71,6 +71,59 @@ tbody tr.sel td{background:color-mix(in srgb,var(--gold) 22%,transparent)}
 .mhead{display:grid;grid-template-columns:52px minmax(0,1fr) 44px 150px;gap:8px;font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding:0 6px 4px}
 .note{font-size:12px;color:var(--muted);max-width:82ch;margin:0}
 .note b{color:var(--ink);font-weight:600}
+</style><script>document.documentElement.dataset.page="shots"</script><style>/* Shared Barça look, added on top of every page's own styles by build.py */
+:root{
+  --bg:#F3F5FA; --surface:#FFFFFF; --ink:#0D1B3E; --muted:#5A6688; --line:#DCE2EE; --chip:#E8ECF5;
+  --grana:#A50044; --azul:#004D98; --gold:#EDBB00;
+  --accent:#A50044; --accent2:#004D98;
+  --pitch:#1F6B3A; --pitchline:rgba(255,255,255,.62);
+  --grass1:#23753F; --grass2:#1E6838;
+  --shadow:0 1px 2px rgba(13,27,62,.06),0 8px 24px -16px rgba(13,27,62,.25);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark; --bg:#070D1F; --surface:#0F1830; --ink:#EAF0FF; --muted:#93A0C3; --line:#1F2C4D; --chip:#16213F;
+  --grana:#E0457B; --azul:#4C8DF0; --accent:#E0457B; --accent2:#4C8DF0;
+  --grass1:#1D6337; --grass2:#195831; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -16px rgba(0,0,0,.6);
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark; --bg:#070D1F; --surface:#0F1830; --ink:#EAF0FF; --muted:#93A0C3; --line:#1F2C4D; --chip:#16213F;
+  --grana:#E0457B; --azul:#4C8DF0; --accent:#E0457B; --accent2:#4C8DF0;
+  --grass1:#1D6337; --grass2:#195831; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -16px rgba(0,0,0,.6);
+}
+body{background:var(--bg)!important}
+.wrap{max-width:1360px!important}
+
+/* page title: blaugrana underline */
+h1 .stripe,h1 span{background:linear-gradient(90deg,var(--azul) 0 50%,var(--grana) 50% 100%) no-repeat 0 100%/100% 5px!important;padding-bottom:6px}
+
+/* the pitch: striped grass, rounded, soft shadow, more room */
+.grid{grid-template-columns:minmax(0,1fr) 300px!important}
+[data-page="shots"] .grid{grid-template-columns:minmax(0,1fr) 420px!important}
+@media (max-width:980px){.grid,[data-page="shots"] .grid{grid-template-columns:1fr!important}}
+.pitchbox{background:repeating-linear-gradient(90deg,var(--grass1) 0 5.56%,var(--grass2) 5.56% 11.11%)!important;
+  border-radius:16px!important;padding:14px!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07),0 18px 40px -22px rgba(6,46,22,.75)}
+[data-page="shots"] .pitchbox{background:repeating-linear-gradient(180deg,var(--grass1) 0 7.7%,var(--grass2) 7.7% 15.4%)!important}
+.pitchmeta,.pitchbox .meta{color:rgba(255,255,255,.85)!important}
+.pitchbox .legend{color:rgba(255,255,255,.88)!important}
+
+/* cards and numbers */
+.panel,.tablewrap,.kpis,.kpi{border-color:var(--line)!important}
+.panel,.tablewrap{border-radius:12px!important;box-shadow:var(--shadow)}
+.kpis{border-radius:12px!important;box-shadow:var(--shadow);position:relative}
+.kpis::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--azul),var(--grana));z-index:1}
+.kpi b{color:var(--ink)}
+.seg button[aria-pressed="true"]{color:var(--grana)!important;font-weight:600}
+.views button[aria-pressed="true"]{background:linear-gradient(135deg,var(--azul),var(--grana))!important;border-color:transparent!important}
+select{border-radius:8px!important}
+input[type=range]{accent-color:var(--grana)}
+
+/* "how it's made" notes fold away so the page stays simple */
+details.method{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;box-shadow:var(--shadow)}
+details.method summary{cursor:pointer;font-weight:600;color:var(--ink);list-style:none;display:flex;align-items:center;gap:8px}
+details.method summary::-webkit-details-marker{display:none}
+details.method summary::before{content:"";width:8px;height:8px;border-right:2px solid var(--grana);border-bottom:2px solid var(--grana);transform:rotate(-45deg);transition:transform .2s}
+details.method[open] summary::before{transform:rotate(45deg)}
+details.method .note{margin:10px 0 0}
 </style>
 
 <div class="wrap">
@@ -99,7 +152,7 @@ tbody tr.sel td{background:color-mix(in srgb,var(--gold) 22%,transparent)}
   <div class="grid">
     <div class="pitchbox" id="pitchbox">
       <div class="meta" id="meta"></div>
-      <svg id="pitch" viewBox="-2 -4 72 60" role="img" aria-label="Shot map, attacking the goal at the top"></svg>
+      <svg id="pitch" viewBox="-2 -4 74 60" role="img" aria-label="Shot map, attacking the goal at the top"></svg>
       <div class="legend" id="legend"></div>
       <div class="tip" id="tip" hidden></div>
     </div>
@@ -208,16 +261,16 @@ function styleFor(s){ const a = THEME[S().team]; switch (s[5]){
   default: return { fill: 'rgba(255,255,255,.03)', stroke: 'rgba(255,255,255,.4)', sw: .25, op: 1 }; } }
 function drawPitch(sh){
   const svg = $('pitch'); svg.innerHTML = '';
-  const g = el('g', { fill: 'none', stroke: 'rgba(255,255,255,.2)', 'stroke-width': .3 }, svg);
+  const g = el('g', { fill: 'none', stroke: 'rgba(255,255,255,.62)', 'stroke-width': .3 }, svg);
   el('rect', { x: 0, y: 0, width: 68, height: 52.5 }, g);
   el('rect', { x: 34 - 20.16, y: 0, width: 40.32, height: 16.5 }, g);
   el('rect', { x: 34 - 9.16, y: 0, width: 18.32, height: 5.5 }, g);
-  el('rect', { x: 34 - 3.66, y: -1.8, width: 7.32, height: 1.8, fill: 'rgba(255,255,255,.06)' }, g);
-  el('circle', { cx: 34, cy: 11, r: .35, fill: 'rgba(255,255,255,.35)', stroke: 'none' }, g);
+  el('rect', { x: 34 - 3.66, y: -1.8, width: 7.32, height: 1.8, fill: 'rgba(255,255,255,.18)' }, g);
+  el('circle', { cx: 34, cy: 11, r: .35, fill: 'rgba(255,255,255,.7)', stroke: 'none' }, g);
   const dy = Math.sqrt(9.15 ** 2 - 5.5 ** 2); el('path', { d: `M ${34 - dy} 16.5 A 9.15 9.15 0 0 0 ${34 + dy} 16.5` }, g);
   el('path', { d: `M ${34 - 9.15} 52.5 A 9.15 9.15 0 0 1 ${34 + 9.15} 52.5` }, g);
   // distance guides
-  const gd = el('g', { fill: 'rgba(255,255,255,.28)', 'font-family': 'IBM Plex Mono, monospace', 'font-size': 1.5 }, svg);
+  const gd = el('g', { fill: 'rgba(255,255,255,.65)', 'font-family': 'IBM Plex Mono, monospace', 'font-size': 1.5 }, svg);
   for (const d of [11, 16.5, 25, 35]){ const t = el('text', { x: 68.6, y: d + .5 }, gd); t.textContent = `${d}m`; el('line', { x1: 67.2, x2: 68, y1: d, y2: d, stroke: 'rgba(255,255,255,.28)', 'stroke-width': .2 }, svg); }
   const layer = el('g', {}, svg);
   const ordered = [...sh].sort((a, b) => (a[0][5] === 'G') - (b[0][5] === 'G') || b[0][6] - a[0][6]);
@@ -268,4 +321,6 @@ $('sideA').onclick = () => { state.side = 0; state.player = ''; buildPlayerSel()
 $('sitSel').onchange = e => { state.sit = e.target.value; buildPlayerSel(); render(); };
 buildAll();
 </script>
-</html>
+<script>(()=>{const ns=[...document.querySelectorAll('p.note')];if(!ns.length)return;
+const d=document.createElement('details');d.className='method';d.innerHTML='<summary>How these numbers are made</summary>';
+ns[0].before(d);ns.forEach(n=>d.appendChild(n));})()</script></html>
